@@ -43,7 +43,7 @@ def postorder_rec(root):
     return
 ```
 
-#### [前序非递归](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+#### [前序非递归](https://leetcode.com/problems/binary-tree-preorder-traversal/)
 
 - 本质上是图的DFS的一个特例，因此可以用栈来实现
 
@@ -67,7 +67,7 @@ class Solution:
         return preorder
 ```
 
-#### [中序非递归](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+#### [中序非递归](https://leetcode.com/problems/binary-tree-inorder-traversal/)
 
 ```Python
 class Solution:
@@ -85,7 +85,7 @@ class Solution:
         return inorder
 ```
 
-#### [后序非递归](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+#### [后序非递归](https://leetcode.com/problems/binary-tree-postorder-traversal/)
 
 ```Python
 class Solution:
@@ -133,7 +133,7 @@ class Solution:
 
 > DFS 深度搜索（从上到下） 和分治法区别：前者一般将最终结果通过指针参数传入，后者一般递归返回结果最后合并
 
-#### [BFS 层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+#### [BFS 层次遍历](https://leetcode.com/problems/binary-tree-level-order-traversal/)
 
 ```Python
 class Solution:
@@ -177,9 +177,140 @@ class Solution:
 - 分段处理
 - 合并结果
 
+```go
+func traversal(root *TreeNode) ResultType  {
+    // nil or leaf
+    if root == nil {
+        // do something and return
+    }
+
+    // Divide
+    ResultType left = traversal(root.Left)
+    ResultType right = traversal(root.Right)
+
+    // Conquer
+    ResultType result = Merge from left and right
+
+    return result
+}
+```
+
+#### 典型示例
+
+```go
+// V2：通过分治法遍历二叉树
+func preorderTraversal(root *TreeNode) []int {
+    result := divideAndConquer(root)
+    return result
+}
+func divideAndConquer(root *TreeNode) []int {
+    result := make([]int, 0)
+    // 返回条件(null & leaf)
+    if root == nil {
+        return result
+    }
+    // 分治(Divide)
+    left := divideAndConquer(root.Left)
+    right := divideAndConquer(root.Right)
+    // 合并结果(Conquer)
+    result = append(result, root.Val)
+    result = append(result, left...)
+    result = append(result, right...)
+    return result
+}
+```
+
+#### 归并排序  
+
+```go
+func MergeSort(nums []int) []int {
+    return mergeSort(nums)
+}
+func mergeSort(nums []int) []int {
+    if len(nums) <= 1 {
+        return nums
+    }
+    // 分治法：divide 分为两段
+    mid := len(nums) / 2
+    left := mergeSort(nums[:mid])
+    right := mergeSort(nums[mid:])
+    // 合并两段数据
+    result := merge(left, right)
+    return result
+}
+func merge(left, right []int) (result []int) {
+    // 两边数组合并游标
+    l := 0
+    r := 0
+    // 注意不能越界
+    for l < len(left) && r < len(right) {
+        // 谁小合并谁
+        if left[l] > right[r] {
+            result = append(result, right[r])
+            r++
+        } else {
+            result = append(result, left[l])
+            l++
+        }
+    }
+    // 剩余部分合并
+    result = append(result, left[l:]...)
+    result = append(result, right[r:]...)
+    return
+}
+```
+
+注意点
+
+> 递归需要返回结果用于合并
+
+#### 快速排序  
+
+```go
+func QuickSort(nums []int) []int {
+	// 思路：把一个数组分为左右两段，左段小于右段，类似分治法没有合并过程
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+
+}
+// 原地交换，所以传入交换索引
+func quickSort(nums []int, start, end int) {
+	if start < end {
+        // 分治法：divide
+		pivot := partition(nums, start, end)
+		quickSort(nums, 0, pivot-1)
+		quickSort(nums, pivot+1, end)
+	}
+}
+// 分区
+func partition(nums []int, start, end int) int {
+	p := nums[end]
+	i := start
+	for j := start; j < end; j++ {
+		if nums[j] < p {
+			swap(nums, i, j)
+			i++
+		}
+	}
+    // 把中间的值换为用于比较的基准值
+	swap(nums, i, end)
+	return i
+}
+func swap(nums []int, i, j int) {
+	t := nums[i]
+	nums[i] = nums[j]
+	nums[j] = t
+}
+```
+
+注意点：
+
+> 快排由于是原地交换所以没有合并过程
+> 传入的索引是存在的索引（如：0、length-1 等），越界可能导致崩溃
+
 ## 常见题目示例
 
-### [maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+### [maximum-depth-of-binary-tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
 
 > 给定一个二叉树，找出其最大深度。
 
@@ -220,7 +351,7 @@ class Solution:
         return depth
 ```
 
-### [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+### [balanced-binary-tree](https://leetcode.com/problems/balanced-binary-tree/)
 
 > 给定一个二叉树，判断它是否是高度平衡的二叉树。
 
@@ -278,7 +409,7 @@ class Solution:
         return True
 ```
 
-### [binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+### [binary-tree-maximum-path-sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
 
 > 给定一个**非空**二叉树，返回其最大路径和。
 
@@ -305,7 +436,7 @@ class Solution:
         return self.maxPath
 ```
 
-### [lowest-common-ancestor-of-a-binary-tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+### [lowest-common-ancestor-of-a-binary-tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 > 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
 
@@ -336,7 +467,7 @@ class Solution:
 
 ### BFS 层次应用
 
-### [binary-tree-zigzag-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+### [binary-tree-zigzag-level-order-traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
 
 > 给定一个二叉树，返回其节点值的锯齿形层次遍历。Z 字形遍历
 
@@ -382,7 +513,7 @@ class Solution:
 
 ### 二叉搜索树应用
 
-### [validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+### [validate-binary-search-tree](https://leetcode.com/problems/validate-binary-search-tree/)
 
 > 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
 
@@ -440,7 +571,7 @@ class Solution:
         return True
 ```
 
-#### [insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+#### [insert-into-a-binary-search-tree](https://leetcode.com/problems/insert-into-a-binary-search-tree/)
 
 > 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
 
@@ -477,12 +608,12 @@ class Solution:
 
 ## 练习
 
-- [ ] [maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
-- [ ] [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
-- [ ] [binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
-- [ ] [lowest-common-ancestor-of-a-binary-tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-- [ ] [binary-tree-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-- [ ] [binary-tree-level-order-traversal-ii](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
-- [ ] [binary-tree-zigzag-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-- [ ] [validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
-- [ ] [insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+- [ ] [maximum-depth-of-binary-tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+- [ ] [balanced-binary-tree](https://leetcode.com/problems/balanced-binary-tree/)
+- [ ] [binary-tree-maximum-path-sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+- [ ] [lowest-common-ancestor-of-a-binary-tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+- [ ] [binary-tree-level-order-traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
+- [ ] [binary-tree-level-order-traversal-ii](https://leetcode.com/problems/binary-tree-level-order-traversal-ii/)
+- [ ] [binary-tree-zigzag-level-order-traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
+- [ ] [validate-binary-search-tree](https://leetcode.com/problems/validate-binary-search-tree/)
+- [ ] [insert-into-a-binary-search-tree](https://leetcode.com/problems/insert-into-a-binary-search-tree/)
