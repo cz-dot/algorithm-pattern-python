@@ -177,22 +177,20 @@ class Solution:
 - 分段处理
 - 合并结果
 
-```go
-func traversal(root *TreeNode) ResultType  {
-    // nil or leaf
-    if root == nil {
-        // do something and return
-    }
-
-    // Divide
-    ResultType left = traversal(root.Left)
-    ResultType right = traversal(root.Right)
-
-    // Conquer
-    ResultType result = Merge from left and right
-
-    return result
-}
+```Python
+class Solution:
+    def traaversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+    	# None or Leaf
+        if root is None:
+            # do something and return
+        
+        # Devide
+        left = traversal(root.left)
+        right = traversal(root.right)
+        
+        # Conquer
+        result = left + [root] + right
+        return result
 ```
 
 #### 典型示例
