@@ -519,6 +519,25 @@ class Solution:
 
 - 思路 2：分治法，一个二叉树为合法的二叉搜索树当且仅当左右子树为合法二叉搜索树且根结点值大于右子树最小值小于左子树最大值。缺点是若不用迭代形式实现则无法提前返回，而迭代实现右比较复杂。
 
+递归形式
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        
+        def validate(root, low=float("-inf"), high=float("inf")):
+            if root is None:
+                return True
+            return low < root.val < high and validate(root.left, low, root.val) and validate(root.right, root.val, high)
+        
+        return validate(root)
+```
+
 ```Python
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
