@@ -72,6 +72,35 @@ class Solution:
         return dummy.next
 ```
 
+```Python
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        # sentinel
+        sentinel = ListNode(0, head)
+
+        # predecessor = the last node 
+        # before the sublist of duplicates
+        pred = sentinel
+        
+        while head:
+            # if it's a beginning of duplicates sublist 
+            # skip all duplicates
+            if head.next and head.val == head.next.val:
+                # move till the end of duplicates sublist
+                while head.next and head.val == head.next.val:
+                    head = head.next
+                # skip all duplicates
+                pred.next = head.next 
+            # otherwise, move predecessor
+            else:
+                pred = pred.next 
+                
+            # move forward
+            head = head.next
+            
+        return sentinel.next
+```
+
 注意点
 • A->B->C 删除 B，A.next = C
 • 删除用一个 Dummy Node 节点辅助（允许头节点可变）
