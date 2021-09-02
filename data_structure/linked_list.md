@@ -234,7 +234,7 @@ class Solution:
 
 > 当头节点不确定的时候，使用哑巴节点
 
-### [sort-list](https://leetcode.com/problems/sort-list/)
+### * [sort-list](https://leetcode.com/problems/sort-list/)
 
 > 在  *O*(*n* log *n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
 
