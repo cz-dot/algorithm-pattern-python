@@ -113,21 +113,22 @@ class Solution:
 - 思路：将当前结点放置到头结点
 
 ```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
-        
-        if head is None:
-            return head
-        
-        tail = head
-        while tail.next is not None:
-            # put tail.next to head  
-            tmp = tail.next
-            tail.next = tail.next.next
-            tmp.next = head
-            head = tmp
-        
-        return head
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev = None
+        curr = head
+        while curr:
+            nextNode = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nextNode
+            
+        return prev
 ```
 - Recursive method is tricky
 ```Python
